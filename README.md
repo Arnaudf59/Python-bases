@@ -220,5 +220,170 @@ elif password_length > 8 and password_length <= 12:
 else:
     print("Mot de passe parfait")
 ```
+---
+Faire l'exercice 2
+
+---
+## Les listes
+### Création d'une listes
+On va Créer une liste qui va stocker des pseudos pour simuler un jeu en ligne:
+
+Pour créer une liste on mets nos valeurs dans des crochets ``[]``
+```py
+joueurs_en_ligne = ["Arnaud", "Maud", "Christelle"]
+print(joueurs_en_ligne)
+```
+resultats: 
+```shell
+['Arnaud', 'Maud', 'Christelle']
+```
+On peut trouver une valeur précise grace à l'indice 
+
+Attention, l'indice d'un tableau comme à **``0``**
+```py
+print(joueurs_en_ligne[0])
+```
+resultat:
+```shell
+Arnaud
+```
+On peut trouver la derniere valeur de la liste:
+```py
+print(joueurs_en_ligne[len(joueurs_en_ligne) - 1])
+```
+resultat:
+```shell
+Christelle
+```
+On peut aussi selectionner une partie de la liste
+```py
+print(joueurs_en_ligne[0:2])
+```
+resultat
+```shell
+['Arnaud', 'Maud']
+```
+On peut aussi créer une liste d'une autre méthode, grâce à la methode ``split()`` 
+```py
+text = input("Entrer une chaine de la forme (email-pseudo-motdepasse").split("-")
+print(text)
+print("Salut {}, ton email est {}, et ton mot de passe est {}".format(text[1], text[0], text[2]))
+```
+resultat:
+```shell
+['arnaud.fourmault@gmail.com', 'arnaudf59', 'arnaud276600']
+Salut Arnaudf59, ton email est arnaud.fourmault@gmail.com, et ton mot de passe est arnaud276600
+```
+### Modifier une liste
+On peut modifier une valeur d'une liste comme pour une variable
+```py
+joueurs_en_ligne[0] = "Arnette"
+```
+Modification multiple
+```py
+joueurs_en_ligne[0:2] = ["Arno", "Mod"]
+```
+resultat:
+```shell
+['Arno', 'Mod', 'Christelle']
+```
+On peut rajouter **``une``** valeur en fin de liste
+```py
+joueurs_en_ligne.append("Floran")
+```
+resultat:
+```shell
+['Arno', 'Mod', 'Christelle', 'Floran']
+```
+Ou rajouter **``plusieurs``** valeurs en fin de liste
+```py
+joueurs_en_ligne.extend(["Damien", "Tanguy"])
+```
+resultat:
+```shell
+['Arno', 'Mod', 'Christelle', 'Damien', 'Tanguy']
+```
+On peut aussi ajouter une valeur à la liste à un endroit choisi
+```py
+joueurs_en_ligne.insert(1, "Bernard")
+```
+Le ``1`` correspond à l'index de la liste ou l'on veux inserer la valeur ``Bernard``
+
+#### Supprimer une valeur dans une liste
+Pour retirer une valeur dans une liste il y a trois posibilités
+1. Methode 1
+```py
+del joueurs_en_ligne[1]
+```
+2. Methode 2 (similaire à la méthode 1)
+```py
+joueurs_en_ligne.pop(1)
+```
+3;  Methode 3 (modification par le nom)
+```py
+joueurs_en_ligne.remove("Arnaud")
+```
+#### Supprimer toutes la liste
+La encore, il y a deux methodes:
+1. Methode 1
+```py
+del joueurs_en_ligne[:]
+```
+2. Methode 2
+```py
+joueurs_en_ligne.clear()
+```
+## Les modules
+En python, on peut importer des modules pour nous permettre d'utiliser des fonnctions pour nous faciliter la vie
+
+Pour importer un module, il faut au debut du fichier, l'importer:
+```py
+import NomDuModule
+```
+On peut aussi, seulement importer une seule function d'un module, pour cela on l'importe de cette façon
+```py
+from NomDuModule import NomFunction
+```
+1. Exemple de module, le module ``statistics`` qui permet de faire des calcul, comme la moyenne
+```py
+import statistics
+
+notes = [
+    9, 10, 13,
+    15, 4, 16
+]
+result = statistics.mean(notes)
+print("La moyenne de l'élève est de: {}".format(result))
+```
+2. Autre exemple de module pratique, le module ``random`` et sa fonction shuffle()
+
+D'abord, on l'importe:
+```py
+from random import shuffle
+```
+Puis on peut l'utiliser
+```py
+notes = [
+    9, 10, 13,
+    15, 4, 16
+]
+# On affiche la liste 
+print(notes)
+# On mélange notre liste
+shuffle(notes)
+# On raffiche la liste modifier
+print(notes)
+```
+resultat:
+```shell
+[9, 10, 13, 15, 4, 16]
+[15, 9, 10, 16, 13, 4]
+```
+---
+Faire l'exercice n°3
+
+---
+
+
 
 
