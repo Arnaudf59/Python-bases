@@ -3,7 +3,7 @@
 ## Installation
 Installer python sur le site ``www.python.org``
 
-Installer les extension visual studion python
+Installer les extensions visual studio ``python``
 
 ## Premier fichier
 Créer un fichier ``HelloWorld.py``
@@ -144,3 +144,81 @@ résultat:
 ```shell
 La moyenne est de: 10
 ```
+
+---
+**``Faire l'exercie n°1``**
+
+---
+
+## Les conditions
+
+### premiere condition
+Une condition permet d'envoyer un résultat en fonction du resultat obtenu
+
+Ici, nous allons créer un porte feuille et un produit à acheter
+```py
+portemonnaie = int(input("De combien d'argent disposez-vous?"))
+prix_produit = 900
+```
+On va ensuite créer une condition pour savoir si l'on peut acheter ce produit
+
+Pour cela, il faut d'abord créer notre condition, on commence pour cela par créer notre ``if`` afin de vérifier si notre condition est bonne ou pas
+```py
+if prix_produit <= portemonnaie:
+    print("Vous achetez ce produit")
+```
+Ensuite, il faut créer la condition si jamais la conditions n'est pas vérifié, pour cela on utilise le mot ``else``
+```py
+else:
+    print("Vous ne pouvez pas acheter ce produit")
+```
+On peut aussi, si jamais on achete le produit, recalculer la variable ``portefeuille``
+
+On peut utiliser la methode **``format``** pour insérer une valeur dans notre chaine de caractère
+```py
+portemonnaie -= prix_produit
+print("Vous disposez désormé de: {}€".format(portemonnaie))
+```
+Il est aussi posible de faire un multi-condition, pour cela, on utilise le mot clé ``and`` pour dire que les deux condition doivent être vrai pour suivre les instructions, ou le mot clé ``or`` pour dire que l'une des deux conditions doit être vrai pour poursuivre les instructions 
+
+exemple and: 
+```py
+if prix_produit <= portemonnaie and prix_produit < 1000:
+    print("Vous achetez ce produit")
+```
+exemple or: 
+```py
+if prix_produit <= portemonnaie or prix_produit < 1000:
+    print("Vous achetez ce produit")
+```
+Il est posiible de simplifier les conditions en utilisant les conditions ternaire:
+```py
+text = ("L'achat est possible", "L'achat est impossible")[prix_produit <= portemonnaie]
+print(text)
+```
+### Condition pour la verif d'un password
+Pour cela, nous allons créer deux variables
+```py
+password = input("Entrer votre mot de passe:")
+password_length = len(password)
+```
+la methode ``len()`` permet de savoir le nombre de caractère d'une variable
+
+On peut donc vérifier si le password posséde bien le nombre de caractère minimun requis
+```py
+if password_length <= 8:
+    print("Mot de passe trop court")
+else:
+    print("Mot de passe moyen")
+```
+On peut aussi rajouter une condition intermédiaire pour rajouter une condition en plus
+```py
+if password_length <= 8:
+    print("Mot de passe trop court")
+elif password_length > 8 and password_length <= 12:
+    print("Mot de passe moyen")
+else:
+    print("Mot de passe parfait")
+```
+
+
