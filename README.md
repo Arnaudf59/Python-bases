@@ -868,6 +868,150 @@ from Class.Players import Player
 ``Faire l'exercice n°8``
 
 ---
+## L'héritage
+En **programmation orientée objet**, l'héritage est un mécanisme qui permet, lors de la déclaration d'une nouvelle classe, d'y inclure les caractéristiques d'une autre classe.
+
+Prenez par exemple un ville, qui posséde plusieurs rue, dans chaque rue il y a plusieurs construction:
+
+1. Un immeuble qui est carractérisé par une adresse, un nombre d'étage, et un nombre de balcon
+2. Ensuite, on a un Supermarché qui posséde une adresse, un nombre d'étage, et un nombre de rayon
+3. Et enfin, une banque, qui est caractérisé elle par une adresse, un nombre d'étage, un nom et un nombre de coffre
+
+On peut constater que chaque construction posséde des caractéristique identique comme l'adresse ou le nombre d'étage
+
+Pour eviter la redondance du code, on peut imaginer une super class Batiment qui posséderai de ses attribut, et des class fils qui hériterai de cette class en plus de leurs attribut dédié.
+
+Pour notre exemple, on va reprendre la class Player du cours sur l'objet, et on va créer une nouvelle ***class Guerrier***
+
+On lui rajoute des attribut et des methode propre a cette class
+```py
+class Guerrier:
+    
+    def __init__(self, pseudo, pv, attaque):
+        self.pseudo = pseudo
+        self.pv = pv
+        self.attaque = attaque
+        #On rajoute un attribut armure pour la class armure
+        self.armure = 3
+        print("Bienvenue au guerrier", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
+    
+    def get_pseudo(self):
+        return self.pseudo
+    
+    def get_pv(self):
+        return self.pv
+    
+    def get_attaque(self):
+        return self.attaque
+    
+    # Une methode get pour récupérer les point d'armure
+    def get_armure(self):
+        return self.armure
+    
+    # On modifie la methode dommage pour inséré les point d'armure
+    def dommage(self, dommage):
+        
+        # Si un guerrier a des points d'armure, il en perd 1 et ne subit pas de dégât
+        if self.armure > 0:
+            self.armure -= 1
+            dommage = 0
+            
+        self.pv -= dommage
+        print("Aie... vous venez de subir", dommage, "dégats !")
+        
+    def attaque_player(self, target_player):
+        target_player.dommage(self.attaque)
+        
+    # On rajoute une methode pour recharger les points d'armure
+    def recharge_armure(self):
+        self.armure = 3
+```
+Ensuite, le fichier ``Lheritage``, on peut importer cette class et verifier nos methode
+```py
+from Class.Player import Player
+from Class.Guerrier import Guerrier
+
+player = Player("Arnaud", 20, 5)
+warrior = Guerrier("DarkWarrior", 30, 2)
+warrior.dommage(4)
+print("vie:", warrior.get_pv(), "armure:", warrior.get_armure())
+warrior.dommage(4)
+print("vie:", warrior.get_pv(), "armure:", warrior.get_armure())
+warrior.dommage(4)
+print("vie:", warrior.get_pv(), "armure:", warrior.get_armure())
+warrior.dommage(4)
+print("vie:", warrior.get_pv(), "armure:", warrior.get_armure())
+```
+Resultat:
+```shell
+Bienvenue au joueur Arnaud / Point de vie : 20 / Attaque :  5
+Bienvenue au guerrier DarkWarrior / Point de vie : 30 / Attaque :  2
+Aie... vous venez de subir 0 dégats !
+vie: 30 armure: 2
+Aie... vous venez de subir 0 dégats !
+vie: 30 armure: 1
+Aie... vous venez de subir 0 dégats !
+vie: 30 armure: 0
+Aie... vous venez de subir 4 dégats !
+vie: 26 armure: 0
+```
+On remarque bien que le guerrier perds des point d'armure, et lorsqu'elle est à 0, il commence à perdre des point de vie
+
+Pour créer le *class Gierrier*, on a dupliqué la *class Player*.
+
+Quand on parle d'héritage, on va retirer les doublon de la class Guerrier(class enfant) pour éviter la redondance du code et utiliser la class Player(class parent) pour lui transmettre
+
+Pour cela, on va précisser que la *class Guerrier* est ``une specification`` de la *class Player*
+```py
+class Guerrier(Player):
+```
+Ensuite, on supprime le code doublons dans le class Guerrier, qui se trouve déjà dans la class Player
+```py
+from Class.Player import Player
+
+class Guerrier(Player):
+    
+    def __init__(self, pseudo, pv, attaque):
+        self.armure = 3
+        print("Bienvenue au guerrier", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
+    
+    # Une methode get pour récupérer les point d'armure
+    def get_armure(self):
+        return self.armure
+    
+    # On modifie la methode dommage pour inséré les point d'armure
+    def dommage(self, dommage):
+        pass  
+        
+    # On rajoute une methode pour recharger les points d'armure
+    def recharge_armure(self):
+        self.armure = 3        
+```
+On utilise pour le moment le mot clé ``pass`` dans la méthode ``dommage()`` afin de signaler que la méthode pour le moment n'a pas de code mais ne renvoi pas d'erreur
+
+Ensuite, il faut modifier le constructeur pour lui dire les élément qu'il doit récupérer de la *class Player*, pour cela, on utilise le mot clé ``super()`` suivi de la fonction ``__init__`` du constructeur parent suivi des attribut que l'on veut récupérer
+```py
+def __init__(self, pseudo, pv, attaque):
+    super().__init__(pseudo, pv, attaque)
+    self.armure = 3
+    print("Bienvenue au guerrier", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
+```
+Après avoir récupérer c'est attribut, on peut refaire *la methode dommage()* de la *class Guerrier*
+```py
+def dommage(self, dommage):
+    if self.armure > 0:
+        self.armure -= 1
+        dommage = 0
+    # Pour utiliser la methode dommage de la class Player, on utilise une nouvelle fois le methode super()     
+    super().dommage(dommage)
+```
+Il est possible de vérifier si une class est bien l'enfant d'une class parent, pour cela on utilise la methode ``issubclass(classEnfant, classParent)``
+```py
+if issubclass(classEnfant, classParent):
+    print("La classEnfant est bien une spécialisation de la classParent")
+```
+
+
 
 
 
