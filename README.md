@@ -679,6 +679,7 @@ le resultat du calcul est 11
 ```
 ---
 Faire l'exercice n°6
+
 ---
 ### La récursivité
 C'est le cas ou une fonction peut s'appeler soit même
