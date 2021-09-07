@@ -383,7 +383,140 @@ resultat:
 Faire l'exercice n°3
 
 ---
+## Les boucles
+### La boucle for
+``La boucle for`` permet de faire une instruction d'une valeur de départ jusqu'à une valeur d'arrivée:
+```py
+for NomDeVariable in range(ParametreDebut,ParametreFin):
+    print(NomDeVariable)
+```
+On utilise le mot clé ``for`` pour lancé la boucle suivi du ``NomDeVariable`` que l'on implémente
 
+Ensuite il nous faut le mot clé ``in`` suivi de la methode ``range(ParametreDebut,ParametreFin)`` pour endiqué l'interval dans lequel on implémente la variable.
+
+Exemple :
+```py
+for i in range(1,5):
+    print("Vous êtes le client n°", i)
+```
+Resultat:
+```shell
+Vous êtes le client n° 1
+Vous êtes le client n° 2
+Vous êtes le client n° 3
+Vous êtes le client n° 4
+```
+Attention, le ``ParametreFin`` est exclus est n'est pas pris en compte
+
+### La boucle for each
+La boucle ``for each`` est une boucle ``for`` qui va fonctionner sur une liste
+
+D'abord il nous faut donc une liste, ici dans notre cas, une liste de email
+```py
+emails = ["arnaud.fourmault@gmail.com", "arnaudf59@hotmail.fr", "arnaud.dev@gmail.com"]
+``` 
+Et grâce à la boucle ``for each``,on va pour faire plusieurs instruction en fonction du nombre d'entrée dans la liste
+```py
+for email in emails:
+    print("Email envoyé à: ", email)
+```
+Resultat:
+```shell
+Email envoyé à:  arnaud.fourmault@gmail.com
+Email envoyé à:  arnaudf59@hotmail.fr
+Email envoyé à:  arnaud.dev@gmail.com
+```
+
+*il est possible de combiner des boucles et des conditions.*
+
+Reprenons notre exemple d'email, mais au lieu d'envoyer un email à chaque valeur de la liste, on decide d'envoyer un mail qu'à certaines adresses, pour celà, on peut créer une liste des email non séléctionner 
+```py
+# Liste d'email
+emails = ["arnaud.fourmault@gmail.com", "arnaudf59@hotmail.fr", "arnaud.dev@gmail.com", "arnaud.taf@gmail.com"]
+# liste d'email blacklisté
+blacklist = ["arnaud.dev@gmail.com", "arnaud.taf@gmail.com"]
+```
+Ensuite, on peut à l'intérieur de notre boucle faire une condition pour savoir si on envoi ou non un email
+```py
+for email in emails:
+    if email in blacklist:
+        print("Email {} interdit! envoi impossible".format(email))
+    else:
+        print("Email envoyé à: ", email)
+```
+resultat:
+```shell
+Email envoyé à:  arnaud.fourmault@gmail.com
+Email envoyé à:  arnaudf59@hotmail.fr
+Email arnaud.dev@gmail.com interdit! envoi impossible
+Email arnaud.taf@gmail.com interdit! envoi impossible
+```
+Il est aussi possible d'utiliser le mot clé ``continue`` finir l'instruction est passé au champs de la liste suivante
+```py
+for email in emails:
+    if email in blacklist:
+        print("Email {} interdit! envoi impossible".format(email))
+        continue
+    
+    print("Email envoyé à: ", email)
+```
+Resultat(Identique à l'autre methode):
+```shell
+Email envoyé à:  arnaud.fourmault@gmail.com
+Email envoyé à:  arnaudf59@hotmail.fr
+Email arnaud.dev@gmail.com interdit! envoi impossible
+Email arnaud.taf@gmail.com interdit! envoi impossible
+```
+Il est aussi possible d'utiliser la mot clé ``break`` pour arrêter la boucle 
+```py
+for email in emails:
+    if email in blacklist:
+        print("Email {} interdit! envoi impossible".format(email))
+        break
+    
+    print("Email envoyé à: ", email)
+```
+Resultat
+```shell
+Email envoyé à:  arnaud.fourmault@gmail.com
+Email envoyé à:  arnaudf59@hotmail.fr
+Email arnaud.dev@gmail.com interdit! envoi impossible
+```
+### La boucle while
+La boucle ``while`` permet de créer une boucle jusqu'à se que l'on arrive au resultat souhaité
+
+Prenons par exemple un salarié qui à un salaire
+```py
+salaire = 1500
+```
+On peux faire une boucle ``while`` sur cette variable
+```py
+while salaire < 2000:
+    print("Votre salaire actuel est de ", salaire, "€")
+```
+Ici, la boucle while dit : ``Tant que le salaire est inférieur à 2000 faire``
+
+Attention, ici, il s'agit comme on le dit **``boucle infinie``**, une boucle qui ne s'arrête jamais
+
+On decide pour cette boucle, augmenter le salaire à chaque fois que l'on rentre dedans:
+```py
+while salaire < 2000:
+    salaire += 120
+    print("Votre salaire actuel est de ", salaire, "€")
+```
+Dans ce cas là, à chaque fois que l'on entre dans la boucle, on rajoute 120 a la variable salaire, jusqu'à se que l'on depasse la condition.
+Resultat:
+```shell
+Votre salaire actuel est de  1620 €
+Votre salaire actuel est de  1740 €
+Votre salaire actuel est de  1860 €
+Votre salaire actuel est de  1980 €
+Votre salaire actuel est de  2100 €
+```
+---
+Faire les exercices 4 et 5
+
+---
 
 
 
