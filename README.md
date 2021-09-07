@@ -678,7 +678,7 @@ le resultat du calcul est 9
 le resultat du calcul est 11
 ```
 ---
-Faire l'exercice n°6
+``Faire l'exercice n°6``
 
 ---
 ### La récursivité
@@ -726,8 +726,150 @@ Resultat:
 20
 ```
 ---
-Faire l'exercice n°7
+``Faire l'exercice n°7``
 
 ---
+## Les Objets
+Pour créer un objet, il faut d'abord, créer une **``class``**
+Expemple de class:
+```py
+class Player:
+```
+Dans une class, on va d'abord y mettre des attribut:
+```py
+class Player:
+    
+    pseudo = "Arnaud"
+    pv = 20
+    attaque = 3
+```
+Après avoir créer la srtucture, il va falloir l'utiliser, pour celà, on va créer une nouvelle variable qui va appeler notre classe
+```py
+player1 = Player()
+```
+Ensuite, on peut donc utiliser notre variable
+```py
+print("Bienvenue au joueur", player1.pseudo)
+```
+Resultat
+```shell
+Bienvenue au joueur Arnaud
+```
+Ici, notre class est static, se qui n'est pas très pratique, car l'on veut créer un moule, il ne faut pas se limiter à une seule valeur par variable, et pour répondre a cette problematique, on va utiliser un ``constructeur``
+
+Le constructeur est une nouvelle fonction
+
+La fonction s'appelle **``__init__``** et c'est la premiere qui va s'ignitialiser quand on va créer une nouvelle instance de l'objet en question
+
+Entre paranthese, il y a un premier parametre qui va se généré automatiquement qui s'appelle ``self``, c'est une sorte de mini bdd dans lequel, on va pouvoir injecter le autre parametre
+
+En plus de ce paramêtre, on peut rajouter d'autre paramêtre et les injecter dans le parametre self
+```py
+def __init__(self, pseudo, pv, attaque):
+    self.pseudo = pseudo
+    self.pv = pv
+    self.attaque = attaque
+```
+on peut aussi, rajouter un message qui s'affiche a chaque instance de notre ``Objet``
+```py
+class Player:
+    
+    def __init__(self, pseudo, pv, attaque):
+        self.pseudo = pseudo
+        self.pv = pv
+        self.attaque = attaque
+        print("Bienvenue au joueur", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
+```
+On peut ensuite instancié notre objet et voir le resultat
+```py
+class Player:
+    
+    def __init__(self, pseudo, pv, attaque):
+        self.pseudo = pseudo
+        self.pv = pv
+        self.attaque = attaque
+        print("Bienvenue au joueur", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
+    
+player1 = Player("Arnaud", 20, 3)
+```
+Resultat
+```shell
+Bienvenue au joueur Arnaud / Point de vie : 20 / Attaque :  3
+```
+### Intérragir avec notre objet
+C'est a ce moment que vont entrer en jeu, **les methodes**
+
+Qu'est ce qu'une methode?
+
+C'est une fonction qui est attibué à une **``class``**
+
+Il y a plusieurs types de methode
+1. Les getteurs, qui vont permettre de récupérer des informations
+```py
+def get_pseudo(self):
+    return self.pseudo
+```
+On peut donc maintenant l'appeler
+```py 
+print("Pseudo:", player1.get_pseudo())
+```
+Resultat:
+```shell
+Pseudo: Arnaud
+```
+2. Les setteurs, qui permet de changer des valeurs
+```py
+def dommage(self, dommage):
+    self.pv -= dommage
+    print("Aie... vous venez de subir", dommage, "dégats !")
+
+player1.dommage(4)
+print("Pseudo:", player1.get_pseudo(), "PV:", player1.get_pv())
+```
+Resultat:
+```shell 
+Aie... vous venez de subir 4 dégats !
+Pseudo: Arnaud PV: 16
+```
+3. On peut aussi créer une methode setteur qui en appelle une autre:
+```py
+def dommage(self, dommage):
+    self.pv -= dommage
+    print("Aie... vous venez de subir", dommage, "dégats !")
+        
+def attaque_player(self, target_player):
+    target_player.dommage(self.attaque)
+
+player1 = Player("Arnaud", 20, 3)
+player2 = Player("Maud", 20, 1)
+
+print(player1.get_pseudo(), "attaque", player2.get_pseudo())
+player1.attaque_player(player2)
+print("Bienvenue au joueur", player1.get_pseudo(), "/ Point de vie :", player1.get_pv(), "/ Attaque : ", player1.get_attaque())
+print("Bienvenue au joueur", player2.get_pseudo(), "/ Point de vie :", player2.get_pv(), "/ Attaque : ", player2.get_attaque())
+```
+Resultat:
+```shell
+Bienvenue au joueur Arnaud / Point de vie : 20 / Attaque :  3
+Bienvenue au joueur Maud / Point de vie : 20 / Attaque :  1
+Arnaud attaque Maud
+Aie... vous venez de subir 3 dégats !
+Bienvenue au joueur Arnaud / Point de vie : 20 / Attaque :  3
+Bienvenue au joueur Maud / Point de vie : 17 / Attaque :  1
+```
+
+On peut deplacer notre ``class`` dans un autre fichier, et ensuite l'importer dans le fichier dont on a besoin d'utiliser cette class
+
+Dans le fichier LesObjets.py mettre l'import, qui importe la class ``Player()`` dans le fichier ``Players.py`` qui se trouve dans le dossier ``Class``
+```py
+from Class.Players import Player
+```
+---
+``Faire l'exercice n°8``
+
+---
+
+
+
 
 
