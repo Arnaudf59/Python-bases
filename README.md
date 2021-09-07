@@ -25,6 +25,18 @@ Pour commenter le code, il suffit de mettre un # devant le code que l'on veut co
 ```py
 # print("Hello world")
 ```
+On peut aussi commenter un bloc de code:
+```py
+"""
+def bienvenue():
+    print("Bienvenue")
+    result = 5 + 6
+    print("Le resultat est de :", result)
+    
+    
+bienvenue()
+"""
+```
 ## Les Variables
 
 il existe plusieurs type de variable.
@@ -221,7 +233,7 @@ else:
     print("Mot de passe parfait")
 ```
 ---
-Faire l'exercice 2
+``Faire l'exercice 2``
 
 ---
 ## Les listes
@@ -380,7 +392,7 @@ resultat:
 [15, 9, 10, 16, 13, 4]
 ```
 ---
-Faire l'exercice n°3
+``Faire l'exercice n°3``
 
 ---
 ## Les boucles
@@ -514,9 +526,207 @@ Votre salaire actuel est de  1980 €
 Votre salaire actuel est de  2100 €
 ```
 ---
-Faire les exercices 4 et 5
+``Faire les exercices 4 et 5``
 
 ---
+## Les fonctions
+### Pemiere fonction
+Pour créer une fonction en python, on utilise le mot clé ``def``
+```py
+def nomFunction():
+```
+Dans une fonction, on peut y mettre autant d'instruction que l'on veut
+Exemple de function:
+```py
+def bienvenue():
+    print("Bienvenue")
+    result = 5 + 6
+    print("Le resultat est de :", result)
+```
+Ensuite pour utiliser la fonction, il faut l'appeler
+```py
+bienvenue()
+```
+Resultat:
+```shell
+Bienvenue
+Le resultat est de : 11
+```
+On peut appeler autant de fois la fonction que l'on veut
+```py
+bienvenue()
+bienvenue()
+bienvenue()
+```
+Resultat (Le resultat s'affiche autant de fois qu'on l'appel):
+```shell
+Bienvenue
+Le resultat est de : 11
+Bienvenue
+Le resultat est de : 11
+Bienvenue
+Le resultat est de : 11
+```
 
+### Fonction avec argument
+Prenons par exemple une fonction qui permets de passer à l'année suivante
+
+Commençons par créer une variable qui contient l'année
+```py
+annee = 2021
+```
+Puis notre fonction
+```py
+def anneeSuivante():
+    print("Fin de l'année", year)
+    year += 1
+    print("Début de l'année", year)
+```
+Ici, la fonction ne retournera rien, car elle n'a pas accés à la variable ``annee``
+Pour cela, il y a plusieurs solutions 
+1. premiere solution, inséré la variable dans la fonction
+```py
+def anneeSuivante():
+    annee = 2021
+    print("Fin de l'année", year)
+    year += 1
+    print("Début de l'année", year)
+```
+Resultat:
+```shell
+Fin de l'année 2021
+Début de l'année 2022
+```
+2. Methode 2
+Pour cela la variable n'est pas dans la fonction, pour l'utiliser dans une function, on utilise le mot clé ``global``
+```py
+def anneeSuivante():
+    global year
+    print("Fin de l'année", year)
+    year += 1
+    print("Début de l'année", year)
+
+year = 2021
+
+anneeSuivante()
+```
+Resultat:
+```shell
+Fin de l'année 2021
+Début de l'année 2022
+```
+### Utiliser une fonction dans une function
+Une fonction peut aussi envoyer une valeur, permettant d'obtenir cette valeur dans une autre fonction
+
+Pour monter tout ça, on va créer une fonction ``addition``
+```py
+def addition():
+    result = 5 + 5
+    return result
+```
+ici, dans notre fonction, on à une variable qui fait une addition, et on utilise le mot clé **``return``** pour permettre l'envoi de la variable ``result``
+
+On peut récupérer et utiliser la methode pour obtenir ou afficher le resultat
+Exemple : 
+```py
+print("le resultat du calcul est", addition())
+```
+Resultat
+```shell
+le resultat du calcul est 10
+```
+Il est possible d'afficher plusieurs fonction en même temps, imaginons une fonction qui permet d'afficher un message.
+```py
+def addition():
+    result = 5 + 5
+    return result
+
+def message():
+    return "le resultat du calcul est"
+
+print(message(), addition())
+```
+Resultat:
+```shell
+le resultat du calcul est 10
+```
+### Fonction avec un paramêtre 
+Un parametre est un valeur que l'on envoie à la fonction pour pouvoir l'utiliser dedans.
+```py
+def addition(n):
+    return 5 + n
+```
+Ensuite on peut l'appeler en mettant entre paranthese la valeur de notre paramêtre
+```py
+print(message(), addition(4))
+```
+Resultat:
+```shell
+le resultat du calcul est 9
+```
+*Il est possible de mettre une valeur par default au cas ou aucun paramêtre n'est envoyé à la function*
+```py
+def addition(n = 6):
+    return 5 + n
+
+print(message(), addition(4))
+print(message(), addition())
+```
+Resultat:
+```shell
+le resultat du calcul est 9
+le resultat du calcul est 11
+```
+---
+Faire l'exercice n°6
+---
+### La récursivité
+C'est le cas ou une fonction peut s'appeler soit même
+Pour commencer, créer une fonction ``add()`` qui permet de faire une addition
+```py
+def add(a):
+    a += 1
+    print(a)
+    
+add(12)
+```
+Resultat:
+```shell
+13
+```
+Dans cette fonction, il est possible dans la fonction, il est possible d'appeler la fonction add() dans la fonction add() et incit créer une boucle
+```py
+def add(a):
+    a += 1
+    print(a)
+    add(a)
+    
+add(12)
+```
+Cela créer une boucle infini, pour eviter celà, il faut mettre un condition dedans la fonction
+```py
+def add(a):
+    a += 1
+    print(a)
+    if a < 20:
+        add(a)
+    
+add(12)
+```
+Resultat:
+```shell
+13
+14
+15
+16
+17
+18
+19
+20
+```
+---
+Faire l'exercice n°7
+
+---
 
 
