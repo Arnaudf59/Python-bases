@@ -996,6 +996,13 @@ def __init__(self, pseudo, pv, attaque):
     self.armure = 3
     print("Bienvenue au guerrier", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
 ```
+On peut remplacer le mot clé ``super()`` par le nom de la class Parent 
+```py
+def __init__(self, pseudo, pv, attaque):
+    Player.__init__(pseudo, pv, attaque)
+    self.armure = 3
+    print("Bienvenue au guerrier", pseudo, "/ Point de vie :", pv, "/ Attaque : ", attaque)
+```
 Après avoir récupérer c'est attribut, on peut refaire *la methode dommage()* de la *class Guerrier*
 ```py
 def dommage(self, dommage):
@@ -1010,8 +1017,200 @@ Il est possible de vérifier si une class est bien l'enfant d'une class parent, 
 if issubclass(classEnfant, classParent):
     print("La classEnfant est bien une spécialisation de la classParent")
 ```
+## Interface graphique
+La premiere des choses à faire pour utiliser une interface graphique est d'avoir un support ou on va placer nos différents éléments, comme par exemple une fenêtre.
 
+Pour cela on va utiliser un module qui s'appelle **``tkinter``** 
 
+Pour créer une fenêtre avec **``tkinter``**, il faut d'abord **l'importer**
+```py
+from tkinter import *
+```
+Puis, il faut créer une variable qui va contenir l'instance de la fenêtre
+```py
+# Création d'une fenêtre
+window = Tk()
+```
+Et enfin, il faut l'afficher
+```py
+# afficher
+window.mainloop()
+```
+Cela nous affiche la fenêtre de base de tkinter
+
+On peut modifier le titre, ou la taille de la fenêtre par exemple
+```py
+# Titre de la fenêtre
+window.title("Interface Graphique")
+# Taille de la fenêtre
+window.geometry("1080x720")
+```
+``geometry()`` prend en valeur une chaine, correspondant a la taille en pixel de la fenêtre souhaité
+
+Il est généralement recommander de mettre une taille minimun a cette fenêtre
+```py
+window.minsize(480, 360)
+```
+Maintenant, on va modifier la petite icon pour cela, il va falloir ajouter une petite ressource, pour ce faire, il faut prendre l'image de son choix et il va falloir la convertire en **``.ico``**
+
+Site pour convertire : https://convertio.co/fr/png-ico/
+
+On vient ensuite le mettre dans notre projet, et on peut donc la rajouter dans notre application
+```py
+# Icon de le fenêtre
+window.iconbitmap("logo.ico")
+```
+Dernière petite modification, la couleur de fond de notre fenêtre
+```py
+# Modification du fond de notre fenêtre
+window.config(background='#41B77F')
+```
+### Premier composant (le texte)
+Pour insérer du texte, on va commencer par créer une variable qui va **porter** ce composant, puis, on va utiliser le mot clé ``Label`` et lui preciser que ce texte doit être afficher sur la *fenêtre* puis le *contenu* du texte
+```py
+label = Label(window, text = "Bienvenue sur l'appication")
+```
+Ensuite, il faut lui dire de l'insérer
+```py
+label = Label(window, text = "Bienvenue sur l'appication")
+label.pack()
+```
+Le texte qui apparait sur cette fenêtre est de ``taille`` standard, et ne posséde pas le ``background`` de la fenêtre
+
+On va commencer par modifier la font de notre text (taille et police)
+```py
+Label(window, text = "Bienvenue sur l'appication", font=("Courrier", 40))
+```
+Ensuite, on va modifier la couleur d'arrière plan et la couleur du texte
+```py
+label = Label(window, text = "Bienvenue sur l'appication", font=("Courrier", 40), bg='#41B77F', fg='#FFFFFF')
+```
+On peut aussi positionner le texte en modifiant l'insertion du composant
+```py
+label.pack(side=POSITION)
+```
+Exemple de position: **LEFT**,**BOTTOM**,**RIGHT**,**TOP**
+
+On peut aussi le centrer en lui mettant une expension
+```py
+label.pack(expand=YES)
+```
+On va créer un sous titre à notre premier composant
+```py
+#premier composant
+label = Label(window, text = "Bienvenue sur l'appication", font=("Courrier", 40), bg='#41B77F', fg='#FFFFFF')
+label.pack(expand=YES)
+
+# Ajouter un sous titre
+sub_label = Label(window, text = "Comment allez vous?", font=("Courrier", 25), bg='#41B77F', fg='#FFFFFF')
+sub_label.pack(expand=YES)
+```
+Les deux textes sont bien afficher sur notre fenêtre, cependant cette méthode n'est pas vraiment bonne. Il est préférable de créer une ``Frame``
+
+Une ``frame`` est une sorte de boite dans laquelle on va placer nos éléments que l'on placera après dans notre fenêtre
+
+Pour cela avant les deux composant, on va créer notre frame en utilisant le mot clé ``Frame()``, on va lui dire ou elle se situe, et la couleur d'arrière plan
+```py
+frame = Frame(window, bg='#41B77F')
+```
+Ensuite, on va modifier nos objets, au lieu d'afficher nos élément dans la fenêtre, on va l'afficher dans notre ``frame``
+
+Puis on va afficher notre *frame* comme pour nos element avec le mots clé ``pack()`` et c'est la *frame* que l'on va etendre pour le positionner au milieu
+
+```py
+# frame
+frame = Frame(window, bg='#41B77F')
+
+#premier composant
+label = Label(frame, text = "Bienvenue sur l'appication", font=("Courrier", 40), bg='#41B77F', fg='#FFFFFF')
+label.pack()
+
+# Ajouter un sous titre
+sub_label = Label(frame, text = "Comment allez vous?", font=("Courrier", 25), bg='#41B77F', fg='#FFFFFF')
+sub_label.pack()
+
+# Afficher notre frame
+frame.pack(expand=YES)
+```
+Les éléments sont bien centrés, mais va frame elle n'est pas visivle, c'est un bloc qui n'est pas afficher
+
+On peut l'afficher en rajoutant de nouveau paramêtre à notre frame, une bordure et un relief pour l'afficher et la faire resortir de la fenêtre
+**Bordure en relief**:
+```py
+frame = Frame(window, bg='#41B77F', bd=1, relief=SUNKEN)
+```
+**Bordure Classique**:
+```py
+frame = Frame(window, bg='#41B77F', bd=1, relief=SOLID)
+```
+### Les boutons
+Pour l'exemple on va créer un bouton lien vers une page internet
+
+Pour créer un bouton, c'est le même principe que pour pour créer du texte, mais au lieu d'utiliser le mot clé **``Label``** on va utiliser le mot clé **``Boutton``**
+```py
+button_github = Button(frame, text="Ouvrir Git Hub", font=("Courrier", 25), fg='#41B77F', bg='#FFFFFF')
+button_github.pack()
+```
+On peut modifier notre bouton, par exemple, on va lui mettre une *marge*, et faire en sorte que le bouton prenne toute la *largeur de la frame en X*
+``py
+button_github.pack(pady=25, fill=X)
+``
+On en a fini avec l'aspect design de notre fenêtre, maintenant, on va s'attaquer à l'aspect logique
+
+Comment faire pour intérragir avec notre boutton
+### Intérragir avec le boutton (Lien)
+Pour commencer, on va d'abbord importer un nouveau module
+
+**``webbrowser``**, permet d'ouvrir des page internet de faire tout un tas de choses avec cela
+```py
+import webbrowser
+```
+Ensuite, on va créer une function pour ouvrir un navigateur
+```py
+def open_github():
+    webbrowser.open_new("https://github.com/Arnaudf59")
+```
+Et pour dire a notre bouton d'ouvrir le navigateur, on va rajouter une nouvelle propriété à notre bouton, la propriété ``command``:
+```py
+button_github = Button(frame, text="Ouvrir Git Hub", font=("Courrier", 25), fg='#41B77F', bg='#FFFFFF', command=open_github)
+```
+### Intérragir avec le boutton (générateur de mot de passe)
+Pour commencer, on va créer un nouveau ficher python, *pass_generator*. On va créer une nouvelle fenêtre dans ce fichier
+```py
+from tkinter import *
+
+window = Tk()
+window.title("Générateur de mot de passe")
+window.geometry("720x480")
+window.iconbitmap("logo.ico")
+window.config(background="#4065A4")
+
+window.mainloop()
+```
+On dispose donc de notre fenêtre, à gauche, on va mettre une image pour representer le mecanisme du générateur, alors qu'a droite, on va mettre tous ce qui est titre, bouton ect
+#### Création de l'image
+D'abord, choisir une image: https://www.flaticon.com/
+
+et de la mettre dans notre projet
+
+Et ensuite, on va créer une premiere section ou l'on va mettre les instructions pour généré un ``canvas``, c'est une zone dans laquelle on va dessiner l'image qui aura une certaine taille et certaine propriété
+```py
+width = 300
+height = 300
+img = PhotoImage(file="password.png")
+```
+On peut personnaliser notre image par exemple en zoomant ou en dezoomant notre image
+```py
+img = PhotoImage(file="password.png").zoom(35)
+```
+On peut aussi lui rajouter un parterne
+```py
+img = PhotoImage(file="password.png").zoom(35).subsample(32)
+```
+Ensuite, on va créer notre canvas
+```py
+canvas = Canvas()
+```
 
 
 
