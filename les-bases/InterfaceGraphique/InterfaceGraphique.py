@@ -17,7 +17,7 @@ window.minsize(480, 360)
 # Modification du fond de notre fenêtre
 window.config(background='#41B77F')
 # Icon de le fenêtre
-#window.iconbitmap("logo.ico")
+window.iconbitmap(r'C:\dev\projet\Python-bases\les-bases\InterfaceGraphique\logo.ico')
 
 
 # frame

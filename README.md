@@ -1058,7 +1058,7 @@ Site pour convertire : https://convertio.co/fr/png-ico/
 On vient ensuite le mettre dans notre projet, et on peut donc la rajouter dans notre application
 ```py
 # Icon de le fenêtre
-window.iconbitmap("logo.ico")
+window.iconbitmap(r'C:\dev\projet\Python-bases\les-bases\InterfaceGraphique\logo.ico')
 ```
 Dernière petite modification, la couleur de fond de notre fenêtre
 ```py
