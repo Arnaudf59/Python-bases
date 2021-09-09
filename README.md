@@ -1207,9 +1207,134 @@ On peut aussi lui rajouter un parterne
 ```py
 img = PhotoImage(file="password.png").zoom(35).subsample(32)
 ```
-Ensuite, on va créer notre canvas
+Ensuite, on va créer notre canvas (espace ou on peut dessiner des composaant graphique).
 ```py
-canvas = Canvas()
+canvas = Canvas(window, width=width, height=height, bg="#4065A4")
+```
+Grace a ce canvas, on va pourvoir créer notre image dans ce canvas puis l'afficher
+```py
+canvas.create_image(width/2, height/2, image=img)
+canvas.pack(expand=YES)
+```
+Le canvas et l'image s'affiche dans la fenêtre, le canvas est le bloc qui contient l'image, il estpossible de retirer la bordure en rajoutant les attributs:
+```py
+canvas = Canvas(window, width=width, height=height, bg="#4065A4", bd=0, highlightthickness=0)
+```
+Ensuite, nous allons créer nos boite pour pouvoir positionner nos éléments
+```py
+frame = Frame(window, bg="#4065A4")
+```
+Ensuite, on va modifier notre canvas pour le mettre dans cette frame
+```py
+Canvas(frame, width=width, height=height, bg="#4065A4", bd=0, highlightthickness=0)
+```
+puis on affiche notre frame
+```py
+canvas.pack()
+frame.pack(expand=YES)
+```
+on va aussi rajouter un titre
+```py
+titre = Label(frame, text="Générer un mot de passe", font=("Helvetica", 20), bg='#4065A4', fg='#FFFFFF')
+titre.pack()
+```
+On va ensuite positionner nos éléments
+### Le grillage
+Pour pouvoir positionner nos élement, il faut remplacer le mot clé ``pack`` par le mot clé ``grid`` 
+
+**grid** prend 3 options, row (la ligne), column (la colonne) et sticky (pour positionner notre objet (nord, est oest, sud))
+```py
+canvas.grid(row=0, column=0, sticky=W)
+titre.grid(row=0, column = 1, sticky=W)
+```
+Ensuite on va créer un deuxieme frame pour y mettre nos nouveau élément, c'est une sous frame de la frame principale
+```py
+frame_droite = Frame(frame, bg="#4065A4")
+```
+On créer donc une nouvelle frame dans la premiere frame, puis on va y mettre le titre dedans, puis l'afficher dedans. Enfin, on va faire le grid non pas sur le titre, mais sur la deuxieme frame
+```py
+titre = Label(frame, text="Générer un mot de passe", font=("Helvetica", 20), bg='#4065A4', fg='#FFFFFF')
+titre.pack()
+
+frame_droite.grid(row=0, column = 1, sticky=W)
+```
+On va ensuite pour créer notre champs (``input``) pour pouvoir injecter le mot de passe généré. Pour cela, on va utiliser l'entrée ``Entry`` pour créer un input
+```py
+input_genere = Entry(frame_droite, font=("Helvetica", 20), bg='#4065A4', fg='#FFFFFF')
+input_genere.pack()
+```
+Puis il nous manque plus que le dernier composant qui est le bouton pour générer le mot de passe
+```py
+button_genere = Button(frame_droite, text="Générer", font=("Helvetica", 20), bg='#4065A4', fg='#FFFFFF')
+button_genere.pack(fill=X)
+```
+Parfait, nous avons donc notre fenêtre et tous les élément dont on a besoin, maintenant, il va falloir créer notre fonction pour générer notre mot de passe
+### Fonction de génération de mot de passe
+On va tout d'abord importer un nouveau module, le module ``string`` de python ainsi que le module ``random``
+```py
+import string
+from random import randint, choice
+```
+Puis on va créer notre fonction ainsi que plusieurs variable, la taille min de mot de passe, la taille minimun, ainsi que les caractère à utiliser
+
+Pour cela, on va utiliser le module string que l'on vient d'installer
+```py
+def generate_password():
+    taille_min = 6
+    taille_max = 15
+    all_caractère = string.ascii_letters + string.punctuation + string.digits
+```
+- **string.ascii_letters** permet de prendre tout l'alphabet
+- **string.punctuation** permet de prendre toute les poctuations
+- **string.digits** permet de prendre tout les chiffres
+
+Ensuite, on créer notre boucle, pour cela, on va utilser la fonction ``randint()`` pour choisir aléatoirement le nombre de caractère du mot de passe
+```py
+for x in range(randint(taille_min, taille_max)):
+```
+Puis on utilise la fonction ``choice`` de random pour choisir aléatoirement un caractère  
+```py
+for x in range(randint(taille_min, taille_max)):
+        choice(all_caractère)
+```
+Enfin, il faut récuperer notre reponse. Pour cela, en python il est posible de mettre la boucle for dans une variable, de plus on va concaténer chaque caractère pour généré notre mot de passe
+```py
+password = "".join(choice(all_caractère) for x in range(randint(taille_min, taille_max)))
+```
+Il ne nous reste plus qu'à afficher le mot de passe dans champs.
+
+Pour cela, on va recupérer notre input créer un peu plus tôt et vider le champs, puis on va remplir le champs avec le mot de passe générer
+```py
+input_genere.delete(0, END)
+    input_genere.insert(0, password)
+```
+et enfin, il faut appeler cette fonction lorsque l'on clique sur notre bouton, pour cela, on rajoute l'attribut ``command`` à notre bouton
+```py
+button_genere = Button(frame_droite, text="Générer", font=("Helvetica", 20), bg='#4065A4', fg='#FFFFFF', command=generate_password)
+button_genere.pack(fill=X)
+```
+## La barre de menu
+Pour créer un menu, il faut d'abbord créer un nouvel instance de menu
+```ts
+menu_bar = Menu(window)
+```
+Puis on va créer un nouveau sous menu
+```py
+file_menu = Menu(menu_bar, tearoff=0)
+```
+l'attribut ``tearoff`` permet de retirer les décorations de liste.
+Puis il faut mettre les option disponible dans se sous menu
+```py
+file_menu.add_command(label="Nouveau", command=generate_password)
+file_menu.add_command(label="Quitter", command=window.quit)
+```
+Et il nous reste plus qu'à afficher le menu en cascade
+```py
+menu_bar.add_cascade(label="Fichier", menu=file_menu)
+```
+Et on dit à notre fenêtre d'utiliser notre menu
+```py
+window.config(menu=menu_bar)
 ```
 
 
