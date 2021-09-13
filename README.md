@@ -1336,6 +1336,171 @@ Et on dit à notre fenêtre d'utiliser notre menu
 ```py
 window.config(menu=menu_bar)
 ```
+## Les documents
+### L'insertion
+En python , il est possible d'enregistrer sur l'ordinnateur des données pour les stocker même quand l'application n'est plus en utiliser
+
+Pour créer un nouveau document, on va utiliser la fonction ``open()`` de python, qui va nous demander deux arguments, premièrement le nom du fichier que l'on veux créer ou le nom du fichier avec lequel on veut intérragir et deuxiemement qui va être le mode d'ouverture du fichier
+```py
+open('NonDuFichier', 'MethodeDouverture')
+```
+| code | Mode d'ouverture |
+|:----------|------:|
+|"r"| lecture seule | 
+|"w"| écriture seule | 
+|"a"| mode d'ajout | 
+|"r+"| lecture et écriture | 
+|"w+"| lecture et écriture, avec suppression du contenu au préalabl | 
+|"a+"| ajout en lecture / écriture à la fin. | 
+
+On constate qu'un nouveau fichier viens de se créer.
+
+Maintenant, on va rejouter du contenu dans ce même fichier. Pour cela il faut récupérer un ce fichier, par exemple dans une variable, qui comporterai l'ouverture et le contenu de ce document
+```py
+file = open('etudiants.txt', 'w+')
+```
+Maitenant, il est possible d'utiliser la fonction ``write()`` qui nous permet d'écrire du text
+```py
+file = open('etudiants.txt', 'w+')
+file.write("Arnaud")
+file.write("Maud")
+file.write("Thomas")
+```
+Après avoir écrit dans notre document, il faut maintenant le fermer
+```py
+file.close()
+```
+Du coup, on obtient 
+```py
+file = open('etudiants.txt', 'w+')
+file.write("Arnaud")
+file.write("Maud")
+file.write("Thomas")
+file.close()
+```
+Résultat dans le fichier etudiant.txt
+```
+ArnaudMaudThomas
+```
+pour rajouter le saut de ligne à la fin d'une insertion, il faut rajouter le ``\n`` à la fin d'une insertion
+```py
+file.write("Arnaud\n")
+```
+Resultat dans le fichier etudiant.txt
+```
+Arnaud
+Maud
+Thomas
+```
+Il est possible d'utiliser une autre méthode pour modifier notre ficher
+
+Pour cela, on va utiliser le mot-clé **``with``** qui en python permet le contexte de ce que l'on a après, *dans notre cas, le document*, puis le mot clé ``as`` pour definier comment on va appeler ce context
+```py
+with open('etudiants.txt', 'w+') as file:
+    file.write("Arnaud\n")
+    file.write("Maud\n")
+    file.write("Thomas\n")
+    file.close()
+```
+Résultat dans le fichier etudiants.txt
+```
+Arnaud
+Maud
+Thomas
+```
+Pour éviter de devoir entrer un par un les entrées, il est possible de créer une boucle pour pouvoir insérer des noms à la pelle
+```py
+etudiants_liste = ["Arnaud", "Maud", "Thomas", "Floran", "Yannick", "Manu", "Juliette"]
+
+with open('etudiants.txt', 'w+') as file:
+    for etudiant in etudiants_liste:
+        file.write(etudiant + "\n")
+    file.close()
+```
+Resultat dans le fichier ``etudiant.txt``
+```
+Arnaud
+Maud
+Thomas
+Floran
+Yannick
+Manu
+Juliette
+```
+### La lecture 
+
+Maintenant que l'on a vu la modification, l'on va voir maintenant un seconde context, la lecture de fichier. Pour cela, on va créer un nouveau fichier repas, et l'on créer un petit module pour choisir aléatoirement le rapas que l'on va manger.
+```py
+repas_liste = ["kebab", "mcdo", "japonais", "chinois", "thai", "poulet frites", "crepes", "omelette", "kfc", "tacos"]
+
+with open('repas.txt', 'w+') as file:
+    for repas in repas_liste:
+        file.write(repas + "\n")
+    file.close()
+```
+pour le lire , on va faire comme tout à l'heure, on va utiliser la function ``open()`` avec l'argument ``r+`` pour la lecture
+```py
+with open("repas.txt", "r+") as file:
+    print(file.readline())
+    file.close()
+```
+Pour éviter une erreur dans le choix du fichier suite à un erreur de saisi, il est possible de faire un controle pour être sur que le fichier choisi est existe bien. pour cela, on va importer le module ``os``
+```py
+import os
+if os.path.exists("repas.txt"):
+    with open("repas.txt", "r+") as file:
+        print(file.readline())
+        file.close()
+else:
+    print("Le document n'existe pas ! Attention !")
+```
+Ensuite, on va modifiernotre code pour afficher aleatoirement un repas dans la liste
+
+Pour cela on va réutiliser le module ``random`` pour choisir aléatoirement un repas dans notre liste
+```py
+import os
+import random
+
+if os.path.exists("repas.txt"):
+    with open("repas.txt", "r+") as file:
+        repas_liste =file.readlines()
+        repas_choix = random.choice(repas_liste)
+        print("Je vous propose aujourd'hui comme repas :", repas_choix)
+        file.close()
+else:
+    print("Le document n'existe pas ! Attention !")
+```
+Resultat 1 :
+```shell
+Je vous propose aujourd'hui comme repas : tacos
+```
+Resultat 2 :
+```shell
+Je vous propose aujourd'hui comme repas : kfc
+```
+
+### Déplacer ou dupliquer un fichier
+Pour cela, on va prendre comme exemple, le déplacement d'une image dans le dossier img
+
+Pour cela, on va commencer à importer deux modules, tout d'abords, le module ``os`` vu un peu plus haut et le module ``shutil`` qui permet notament le deplacement de fichier ou la copie de fichier
+```ty
+import os
+import shutil
+```
+Puis, on va lui indiquer une source, et un enddroit ou le copier, puis on utilise le module ``shutil`` pour copier
+```py
+source = "password.png"
+target = "img/password.png"
+
+shutil.copy(source, target)
+```
+Pour le couper/coller, il faut aussi faire le copier/coller puis le supprimer le fichier d'origine
+```py
+shutil.copy(source, target)
+os.remove(source)
+```
+
+
 
 
 
