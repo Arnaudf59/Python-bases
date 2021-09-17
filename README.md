@@ -1499,10 +1499,33 @@ Pour le couper/coller, il faut aussi faire le copier/coller puis le supprimer le
 shutil.copy(source, target)
 os.remove(source)
 ```
+## Module Standard Python
 
+| Module | Description |
+| ------ | ----------- |
+| sys | Variables et fonctions pour interagir avec l’interpréteur Python|
+| os | Fonctions élémentaires pour interagir avec le système d’exploitation|
+| math | Fonctions mathématiques avancées|
+| ramdom | Bibliothèque pour la génération de nombres aléatoires|
+| datetime | Représentation des dates et du temps|
+| calendar | Gestion du calendrier|
+| collections | Structures de données supplémentaires pour les séquences et les dictionnaires|
 
+## Bases de données SQL
+D'abord, nous allons créer une bases de données SQL pour notre exemple
+```sql
+CREATE DATABASE python_db;
+USE python_db;
+CREATE TABLE IF NOT EXISTS USER(id int AUTO_INCREMENT PRIMARY KEY, pseudo text);
+INSERT INTO USER (pseudo) VALUES ("Arnaud");
+INSERT INTO USER (pseudo) VALUES ('Maud');
+INSERT INTO USER (pseudo) VALUES ('Christelle');
+INSERT INTO USER (pseudo) VALUES ('Yannick');
+```
+Pour se connecter à une base sql, il faut d'abord importer un module, ``MySqldb``
 
-
-
-
-
+Puis, on appelle une de ses fonctions avec des paramètres labellisés (ce qui permet de les passer sans ordre précis)
+```py
+import MySqldb
+lien_db = MySqldb.connect(host="localhost", user="root", passwd="", db="python_db")
+```
